@@ -1,0 +1,13 @@
+@import model.Runway
+@(result: (String,Map[String,Seq[Runway]]))
+
+@main("Welcome to AirportsLunatech") {
+  <h1>Welcome to the query endpoint of AirportsLunatech!</h1>
+  The airports in @result._1 are:<br>
+  @for(item <- result._2) {
+    &emsp;@item._1, its runways are:<br>
+    @for(runway <- item._2) {
+      &emsp;&emsp;length_ft: @runway.length_ft,  width_ft: @runway.width_ft, surface: @runway.surface, le_ident: @runway.le_ident<br>
+    }
+  }
+}

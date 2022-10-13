@@ -1,0 +1,31 @@
+<!-- https://www.playframework.com/documentation/latest/SettingsLogger -->
+<configuration>
+
+    <conversionRule conversionWord="coloredLevel" converterClass="play.api.libs.logback.ColoredLevel"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[UNIT_TEST] %coloredLevel %logger - %message%n%xException{10}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="net.sf.ehcache" level="WARN"/>
+    <logger name="play.shaded.ahc" level="WARN"/>
+    <logger name="com.github.tminglei.slickpg" level="WARN"/>
+    <logger name="play.api.db" level="WARN"/>
+    <logger name="play.api.libs" level="WARN"/>
+    <logger name="play.api.http" level="WARN"/>
+    <logger name="com.sksamuel.elastic4s" level="WARN"/>
+    <logger name="controllers.AssetsConfiguration" level="WARN"/>
+    <logger name="akka.event.slf4j" level="WARN"/>
+    <logger name="utils.MyPostgresProfile" level="WARN"/>
+    <logger name="slick" level="INFO"/>
+    <logger name="com.zaxxer" level="ERROR"/>
+    <logger name="org.apache.http" level="INFO"/>
+    <logger name="org.quartz" level="ERROR"/>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

@@ -25,13 +25,13 @@ cat << "EOF"
 EOF
 
 echo -e "${Bold}Initializing schema...${NC}"
-psql --host=postgres --username=postgres -w -d lunatech_airport -f ./schema.sql &&
+psql --host="$PGHOST" --username=postgres -w -d lunatech_airport -f ./schema.sql &&
 echo -e "\n${Bold}Initializing countries...${NC}"
-psql --host=postgres --username=postgres -w -d lunatech_airport -c "\copy countries(id, code, name, continent, wikipedia_link, keywords) FROM 'countries.csv' DELIMITER ',' CSV HEADER"
+psql --host="$PGHOST" --username=postgres -w -d lunatech_airport -c "\copy countries(id, code, name, continent, wikipedia_link, keywords) FROM 'countries.csv' DELIMITER ',' CSV HEADER"
 echo -e "\n${Bold}Initializing airports...${NC}"
-psql --host=postgres --username=postgres -w -d lunatech_airport -c "\copy airports(id, ident, type, name, latitude_deg, longitude_deg, elevation_ft, continent, iso_country, iso_region, municipality, scheduled_service, gps_code, iata_code, local_code, home_link, wikipedia_link, keywords) FROM 'airports.csv' DELIMITER ',' CSV HEADER"
+psql --host="$PGHOST" --username=postgres -w -d lunatech_airport -c "\copy airports(id, ident, type, name, latitude_deg, longitude_deg, elevation_ft, continent, iso_country, iso_region, municipality, scheduled_service, gps_code, iata_code, local_code, home_link, wikipedia_link, keywords) FROM 'airports.csv' DELIMITER ',' CSV HEADER"
 echo -e "\n${Bold}Initializing runways...${NC}"
-psql --host=postgres --username=postgres -w -d lunatech_airport -c "\copy runways(id, airport_ref, airport_ident, length_ft, width_ft, surface, lighted, closed, le_ident, le_latitude_deg, le_longitude_deg, le_elevation_ft, le_heading_degT, le_displaced_threshold_ft, he_ident, he_latitude_deg, he_longitude_deg, he_elevation_ft, he_heading_degT, he_displaced_threshold_ft) FROM 'runways.csv' DELIMITER ',' CSV HEADER"
+psql --host="$PGHOST" --username=postgres -w -d lunatech_airport -c "\copy runways(id, airport_ref, airport_ident, length_ft, width_ft, surface, lighted, closed, le_ident, le_latitude_deg, le_longitude_deg, le_elevation_ft, le_heading_degT, le_displaced_threshold_ft, he_ident, he_latitude_deg, he_longitude_deg, he_elevation_ft, he_heading_degT, he_displaced_threshold_ft) FROM 'runways.csv' DELIMITER ',' CSV HEADER"
 
 # To change this banner, go to http://patorjk.com/software/taag/#p=display&f=Big&t=DB%20ready%20to%20use!
 cat << "EOF"

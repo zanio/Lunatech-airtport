@@ -1,0 +1,12 @@
+@(result: Seq[(String, Int,Seq[String])])
+
+@main("Welcome to AirportsLunatech") {
+  <h1>Welcome to the reports endpoint of AirportsLunatech!</h1>
+  The countries with the highest and lowest number of airports are:<br><br>
+  @for(item <- result) {
+  &emsp;@item._1 with @item._2 airports, and its runways surfaces are:<br>
+    @for(runway <- item._3) {
+    &emsp;&emsp;@runway<br>
+    }
+  }
+}
