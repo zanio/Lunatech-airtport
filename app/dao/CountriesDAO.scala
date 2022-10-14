@@ -5,12 +5,13 @@ import org.slf4j.LoggerFactory
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.PostgresProfile.api._
 import slick.jdbc.PostgresProfile
+import util.Logger
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 import scala.runtime.Nothing$
 
-class CountriesTable(tag: Tag) extends Table[Country](tag, "countries") {
+class CountriesTable(tag: Tag) extends Table[Country](tag, "countries") with Logger {
 
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
 
@@ -48,6 +49,12 @@ class CountriesDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
     db.run(countries.result)
   }
 
+  /**
+   *  It returns a 2-turple of type (String and Map[String, Seq[Runway]]).
+   * The string represent the country while the map key represent the Airport and the runway represent all the runways in that particular airport
+   * @param nameOrCode: The country code to searched for
+   * @return Future[(String, Map[String, Seq[Runway]])]
+   */
   def listAirportsAndRunways(nameOrCode: String): Future[(String, Map[String, Seq[Runway]])] = {
     val emptyMap: Map[String, Seq[Runway]] = Map.empty
     val countriesQuery = nameOrCode match {
@@ -61,7 +68,7 @@ class CountriesDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvi
       airport <- airports if country.code === airport.iso_country
       runway <- runways if airport.id === runway.airport_ref
     } yield (country, airport, runway)).result map {
-      case tuples if !tuples.isEmpty => tuples.groupBy(_._1.name).map {
+      case tuples if tuples.nonEmpty => tuples.groupBy(_._1.name).map {
         res =>
           (res._1, res._2.groupBy(_._2.name).map {
             result => (result._1, result._2.map(x => x._3))
