@@ -24,21 +24,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      postgres-init:
-        image: postgres:13
-        depends_on:
-          postgres:
-            condition: service_healthy
-        env:
-          PGPASSWORD=postgres
-          PGHOST=postgres
-        volumes:
-          - ../../database-init/initialize-airports.sh:/initialize-airports.sh
-          - ../../database-init/schema.sql:/schema.sql
-          - ../../database-init/airports.csv:/airports.csv
-          - ../../database-init/countries.csv:/countries.csv
-          - ../../database-init/runways.csv:/runways.csv
-        command: bash -c "sleep 10 && chmod u+x /initialize-airports.sh && /initialize-airports.sh"
 
     steps:
     - uses: actions/checkout@v2
